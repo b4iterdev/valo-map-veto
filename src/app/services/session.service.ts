@@ -6,6 +6,17 @@ export interface Session {
   id: string;
   leftTeam: string;
   rightTeam: string;
+  Bo: number;
+  mapStates: MapState[];
+}
+
+export interface MapState {
+  name: string;
+  imageUrl: string;
+  banned: boolean;
+  bannedBy?: 'left' | 'right';
+  selectedBy?: 'left' | 'right' | 'decider';
+  side?: 'attacker' | 'defender';
 }
 
 @Injectable({
@@ -34,15 +45,31 @@ export class SessionService {
       console.error('Session error:', error);
       this.currentSession.next(null);
     });
+
+    socket.on('mapStatesUpdated', (session: Session) => {
+      this.currentSession.next(session);
+    });
   }
 
-  createSession(leftTeam: string, rightTeam: string): void {
+  createSession(leftTeam: string, rightTeam: string, Bo:number): void {
     const socket = this.socketService.getSocket();
-    socket.emit('createSession', { leftTeam, rightTeam });
+    socket.emit('createSession', { leftTeam, rightTeam, Bo});
   }
 
   getSession(sessionId: string): void {
     const socket = this.socketService.getSocket();
     socket.emit('getSession', sessionId);
+  }
+
+  getCurrentSession(): Session | null {
+    return this.currentSession.getValue();
+  }
+
+  updateMapState(sessionId: string, mapStates: MapState[]) {
+    console.log('Updating map states:', mapStates);
+    this.socketService.getSocket().emit('updateMapStates', { 
+      sessionId, 
+      mapStates 
+    });
   }
 }

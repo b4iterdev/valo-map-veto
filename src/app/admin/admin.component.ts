@@ -33,15 +33,21 @@ export class AdminComponent {
   createSession() {
     const leftName = (document.getElementById('leftTeam') as HTMLInputElement).value;
     const rightName = (document.getElementById('rightTeam') as HTMLInputElement).value;
+    const Bo = parseInt((document.getElementById('Bestof') as HTMLInputElement).value, 10);
     
-    if (!leftName || !rightName) {
-      this.error = 'Both team names are required';
+    if (!leftName || !rightName || isNaN(Bo)) {
+      this.error = 'All fields are required / Bo must be a number';
+      return;
+    }
+
+    if (![1, 3, 5].includes(Bo)) {
+      this.error = 'Best of must be 1, 3, or 5';
       return;
     }
 
     this.isLoading = true;
     this.error = null;
-    this.sessionService.createSession(leftName, rightName);
+    this.sessionService.createSession(leftName, rightName, Bo);
   }
 
   copyUrl() {

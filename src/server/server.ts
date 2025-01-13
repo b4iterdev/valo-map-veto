@@ -4,10 +4,17 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
 
+interface MapState {
+  mapName: string;
+  state: string;
+}
+
 interface Session {
   id: string;
   leftTeam: string;
   rightTeam: string;
+  Bo: number;
+  mapStates: MapState[];
 }
 
 const app = express();
@@ -22,11 +29,13 @@ const sessions = new Map<string, Session>();
 io.on('connection', (socket) => {
   console.log('Client connected');
 
-  socket.on('createSession', ({ leftTeam, rightTeam }) => {
+  socket.on('createSession', ({ leftTeam, rightTeam, Bo }) => {
     const session: Session = {
       id: uuidv4(),
       leftTeam,
-      rightTeam
+      rightTeam,
+      Bo,
+      mapStates: []
     };
     sessions.set(session.id, session);
     console.log('Session created:', session);
@@ -39,6 +48,16 @@ io.on('connection', (socket) => {
       socket.emit('sessionData', session);
     } else {
       socket.emit('sessionError', { message: 'Session not found' });
+    }
+  });
+
+  socket.on('updateMapStates', ({ sessionId, mapStates }) => {
+    const session = sessions.get(sessionId);
+    if (session) {
+      session.mapStates = mapStates;
+      sessions.set(sessionId, session);
+      io.emit('mapStatesUpdated', session);
+      console.log('Map states updated:', mapStates);
     }
   });
 });

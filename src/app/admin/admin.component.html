@@ -2,6 +2,7 @@
   <div class="input-section">
     <input id="leftTeam" placeholder="Left Team Name">
     <input id="rightTeam" placeholder="Right Team Name">
+    <input id="Bestof" placeholder="Bo" type="number" min="1" max="5" step="2">
     <button (click)="createSession()" [disabled]="isLoading">
       {{ isLoading ? 'Creating...' : 'Create Session' }}
     </button>
