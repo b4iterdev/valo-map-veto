@@ -1,0 +1,24 @@
+.client-container {
+  padding: 20px;
+  
+  .teams {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+  }
+
+  .team {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .error {
+    color: red;
+    margin: 10px 0;
+  }
+
+  .loading {
+    color: #666;
+  }
+}

@@ -1,7 +1,6 @@
 .admin-container {
-    padding: 20px;
-  }
-  
+  padding: 20px;
+
   .input-section {
     margin-bottom: 20px;
     
@@ -9,16 +8,17 @@
       margin-right: 10px;
       padding: 8px;
     }
-    
-    button {
-      padding: 8px 16px;
-    }
   }
-  
+
+  .error {
+    color: red;
+    margin: 10px 0;
+  }
+
   .url-section {
     margin-top: 20px;
     
-    .url-display {
+    .url-box {
       display: flex;
       gap: 10px;
       
@@ -26,9 +26,6 @@
         flex: 1;
         padding: 8px;
       }
-      
-      button {
-        padding: 8px 16px;
-      }
     }
   }
+}

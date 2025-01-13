@@ -2,12 +2,18 @@
   <div class="input-section">
     <input id="leftTeam" placeholder="Left Team Name">
     <input id="rightTeam" placeholder="Right Team Name">
-    <button (click)="createSession()">Create Session</button>
+    <button (click)="createSession()" [disabled]="isLoading">
+      {{ isLoading ? 'Creating...' : 'Create Session' }}
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
   </div>
 
   <div *ngIf="generatedUrl" class="url-section">
     <p>Share this URL:</p>
-    <div class="url-display">
+    <div class="url-box">
       <input [value]="generatedUrl" readonly>
       <button (click)="copyUrl()">Copy URL</button>
     </div>

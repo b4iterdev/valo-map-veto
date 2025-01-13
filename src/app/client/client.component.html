@@ -1,9 +1,22 @@
 <!-- src/app/client/client.component.html -->
-<div *ngIf="session$ | async as session">
-  <h2>Session: {{session.id}}</h2>
-  <div>Left Team: {{session.leftTeam}}</div>
-  <div>Right Team: {{session.rightTeam}}</div>
-</div>
-<div *ngIf="!(session$ | async)">
-  No active session
+<div class="client-container">
+  <ng-container *ngIf="session$ | async as session; else noSession">
+    <h2>Session Details</h2>
+    <div class="teams">
+      <div class="team">Left Team: {{session.leftTeam}}</div>
+      <div class="team">Right Team: {{session.rightTeam}}</div>
+    </div>
+  </ng-container>
+
+  <ng-template #noSession>
+    <div *ngIf="isLoading" class="loading">
+      Loading session...
+    </div>
+    <div *ngIf="error" class="error">
+      {{error}}
+    </div>
+    <div *ngIf="!isLoading && !error" class="no-session">
+      No active session
+    </div>
+  </ng-template>
 </div>

@@ -13,22 +13,37 @@ import { SessionService } from '../services/session.service';
 })
 export class AdminComponent {
   generatedUrl: string | null = null;
+  isLoading = false;
+  error: string | null = null;
 
   constructor(
     private sessionService: SessionService,
     private router: Router
-  ) {}
+  ) {
+    this.setupSessionListener();
+  }
+
+  private setupSessionListener() {
+    this.sessionService.currentSession$.subscribe(session => {
+      if (session) {
+        this.generatedUrl = `${window.location.origin}/client?session=${session.id}`;
+        this.isLoading = false;
+      }
+    });
+  }
 
   createSession() {
     const leftName = (document.getElementById('leftTeam') as HTMLInputElement).value;
     const rightName = (document.getElementById('rightTeam') as HTMLInputElement).value;
     
-    const sessionId = this.sessionService.createSession(leftName, rightName);
-    console.log(`Session created with ID: ${sessionId}`);
-    
-    // Generate shareable URL
-    this.generatedUrl = `${window.location.origin}/client?session=${sessionId}`;
-    
+    if (!leftName || !rightName) {
+      this.error = 'Both team names are required';
+      return;
+    }
+
+    this.isLoading = true;
+    this.error = null;
+    this.sessionService.createSession(leftName, rightName);
   }
 
   copyUrl() {
