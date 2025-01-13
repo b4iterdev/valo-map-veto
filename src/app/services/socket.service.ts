@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-// import { environment } from '../../environments/environment';
+import { Config } from '../shared/config';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +8,8 @@ import { io, Socket } from 'socket.io-client';
 export class SocketService {
   private socket: Socket;
 
-  constructor() {
-    this.socket = io('http://localhost:3000');
+  constructor(private config: Config) {
+    this.socket = io(this.config.serverUrl);
   }
 
   getSocket(): Socket {
