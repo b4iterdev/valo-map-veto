@@ -130,11 +130,12 @@ export class ClientComponent implements OnInit, OnDestroy {
       ];
     } else { // bo === 5
       return [
-        { type: 'pick', team: 'left', step: 1 },
-        { type: 'pick', team: 'right', step: 2 },
+        { type: 'ban', team: 'left', step: 1 },
+        { type: 'ban', team: 'right', step: 2 },
         { type: 'pick', team: 'left', step: 3 },
         { type: 'pick', team: 'right', step: 4 },
-        { type: 'pick', team: 'left', step: 5 }
+        { type: 'pick', team: 'left', step: 5 },
+        { type: 'pick', team: 'right', step: 6 }
       ];
     }
   }
