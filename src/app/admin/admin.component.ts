@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../services/session.service';
 
@@ -18,7 +17,6 @@ export class AdminComponent {
 
   constructor(
     private sessionService: SessionService,
-    private router: Router
   ) {
     this.setupSessionListener();
   }
