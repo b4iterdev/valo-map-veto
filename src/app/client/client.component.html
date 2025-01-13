@@ -1,0 +1,9 @@
+<!-- src/app/client/client.component.html -->
+<div *ngIf="session$ | async as session">
+  <h2>Session: {{session.id}}</h2>
+  <div>Left Team: {{session.leftTeam}}</div>
+  <div>Right Team: {{session.rightTeam}}</div>
+</div>
+<div *ngIf="!(session$ | async)">
+  No active session
+</div>
