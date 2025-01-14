@@ -6,9 +6,8 @@ COPY . .
 
 RUN npm install
 
-RUN if [ "$TARGET" = "static" ]; then \
-    npm run build --configuration=production; \
-    fi
+RUN npm run build --configuration=production
+
 
 FROM nginx:1.27.2-alpine AS static
 
