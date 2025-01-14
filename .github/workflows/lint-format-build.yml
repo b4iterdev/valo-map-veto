@@ -40,4 +40,4 @@ jobs:
           commit_message: Apply Lint and Format
 
       - name: Run build
-        run: npm build
+        run: npm run build
