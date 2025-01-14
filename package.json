@@ -1,6 +1,11 @@
 {
   "name": "valo-map-veto",
   "version": "1.0.0",
+  "author": {
+    "name": "Nguyen Minh Thai",
+    "url": "https://linktr.ee/b4iterdev"
+  },
+  "license":"GPL-3.0-only",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
