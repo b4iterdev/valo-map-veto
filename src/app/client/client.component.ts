@@ -170,33 +170,32 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   onMapClick(map: MapStatus, session: Session) {
     if (map.banned || map.selectedBy) return;
-    
+      
     const step = this.getBanPickOrder(session.Bo).find(s => s.step === this.currentStep);
     if (!step) return;
-
+  
     const remainingMaps = this.getRemainingMaps();
     
-    // Handle last ban and decider map
-    if (remainingMaps === 2 && step.team === 'right') {
-      // Mark the clicked map as banned
+    if (remainingMaps === 2 && step.team === 'right' && session.Bo !== 5) {
+      // Last ban by right team
       map.banned = true;
       map.bannedBy = 'right';
       
-      // Find and mark the remaining map as decider
+      // Find and mark remaining map as decider
       const deciderMap = this.mapStatuses.find(m => !m.banned && !m.selectedBy);
       if (deciderMap) {
-        deciderMap.selectedBy = 'decider';
+        deciderMap.selectedBy = 'right'; // Mark as selected by right team
         this.currentSideSelection = {
           mapName: deciderMap.name,
-          selectingTeam: 'right',
-          pickingTeam: 'decider'
+          selectingTeam: 'left',     // Ensure left team chooses side for decider
+          pickingTeam: 'right'       // Right team picked the map
         };
         this.showSideSelection = true;
       }
       this.sessionService.updateMapState(session.id, this.mapStatuses);
       return;
     }
-
+  
     // Normal flow for other cases
     if (step.type === 'ban') {
       map.banned = true;
