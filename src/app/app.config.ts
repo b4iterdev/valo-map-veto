@@ -5,10 +5,10 @@ import { Config } from './shared/config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    { 
+    {
       provide: Config,
-      useValue: new Config()
+      useValue: new Config(),
     },
-    provideRouter(routes)
-  ]
+    provideRouter(routes),
+  ],
 };

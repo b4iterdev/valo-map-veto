@@ -1,10 +1,17 @@
 <div class="admin-container">
   <div class="input-section">
-    <input id="leftTeam" placeholder="Left Team Name">
-    <input id="rightTeam" placeholder="Right Team Name">
-    <input id="Bestof" placeholder="Bo" type="number" min="1" max="5" step="2">
+    <input id="leftTeam" placeholder="Left Team Name" />
+    <input id="rightTeam" placeholder="Right Team Name" />
+    <input
+      id="Bestof"
+      placeholder="Bo"
+      type="number"
+      min="1"
+      max="5"
+      step="2"
+    />
     <button (click)="createSession()" [disabled]="isLoading">
-      {{ isLoading ? 'Creating...' : 'Create Session' }}
+      {{ isLoading ? "Creating..." : "Create Session" }}
     </button>
   </div>
 
@@ -15,7 +22,7 @@
   <div *ngIf="generatedUrl" class="url-section">
     <p>Share this URL:</p>
     <div class="url-box">
-      <input [value]="generatedUrl" readonly>
+      <input [value]="generatedUrl" readonly />
       <button (click)="copyUrl()">Copy URL</button>
     </div>
   </div>

@@ -8,21 +8,19 @@ import { SessionService } from '../services/session.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.scss'
+  styleUrl: './admin.component.scss',
 })
 export class AdminComponent {
   generatedUrl: string | null = null;
   isLoading = false;
   error: string | null = null;
 
-  constructor(
-    private sessionService: SessionService,
-  ) {
+  constructor(private sessionService: SessionService) {
     this.setupSessionListener();
   }
 
   private setupSessionListener() {
-    this.sessionService.currentSession$.subscribe(session => {
+    this.sessionService.currentSession$.subscribe((session) => {
       if (session) {
         this.generatedUrl = `${window.location.origin}/client?session=${session.id}`;
         this.isLoading = false;
@@ -31,10 +29,15 @@ export class AdminComponent {
   }
 
   createSession() {
-    const leftName = (document.getElementById('leftTeam') as HTMLInputElement).value;
-    const rightName = (document.getElementById('rightTeam') as HTMLInputElement).value;
-    const Bo = parseInt((document.getElementById('Bestof') as HTMLInputElement).value, 10);
-    
+    const leftName = (document.getElementById('leftTeam') as HTMLInputElement)
+      .value;
+    const rightName = (document.getElementById('rightTeam') as HTMLInputElement)
+      .value;
+    const Bo = parseInt(
+      (document.getElementById('Bestof') as HTMLInputElement).value,
+      10,
+    );
+
     if (!leftName || !rightName || isNaN(Bo)) {
       this.error = 'All fields are required / Bo must be a number';
       return;
@@ -52,11 +55,12 @@ export class AdminComponent {
 
   copyUrl() {
     if (this.generatedUrl) {
-      navigator.clipboard.writeText(this.generatedUrl)
+      navigator.clipboard
+        .writeText(this.generatedUrl)
         .then(() => {
           alert('URL copied to clipboard!');
         })
-        .catch(err => {
+        .catch((err) => {
           console.error('Failed to copy URL:', err);
         });
     }

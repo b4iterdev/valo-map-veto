@@ -20,7 +20,7 @@ export interface MapState {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SessionService {
   private currentSession = new BehaviorSubject<Session | null>(null);
@@ -32,7 +32,7 @@ export class SessionService {
 
   private setupSocketListeners() {
     const socket = this.socketService.getSocket();
-    
+
     socket.on('sessionCreated', (session: Session) => {
       this.currentSession.next(session);
     });
@@ -51,9 +51,9 @@ export class SessionService {
     });
   }
 
-  createSession(leftTeam: string, rightTeam: string, Bo:number): void {
+  createSession(leftTeam: string, rightTeam: string, Bo: number): void {
     const socket = this.socketService.getSocket();
-    socket.emit('createSession', { leftTeam, rightTeam, Bo});
+    socket.emit('createSession', { leftTeam, rightTeam, Bo });
   }
 
   getSession(sessionId: string): void {
@@ -67,9 +67,9 @@ export class SessionService {
 
   updateMapState(sessionId: string, mapStates: MapState[]) {
     console.log('Updating map states:', mapStates);
-    this.socketService.getSocket().emit('updateMapStates', { 
-      sessionId, 
-      mapStates 
+    this.socketService.getSocket().emit('updateMapStates', {
+      sessionId,
+      mapStates,
     });
   }
 }

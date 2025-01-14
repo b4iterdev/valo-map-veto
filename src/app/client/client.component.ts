@@ -35,7 +35,7 @@ interface SideSelection {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './client.component.html',
-  styleUrl: './client.component.scss'
+  styleUrl: './client.component.scss',
 })
 export class ClientComponent implements OnInit, OnDestroy {
   session$: Observable<Session | null>;
@@ -45,13 +45,13 @@ export class ClientComponent implements OnInit, OnDestroy {
   banPickOrder: BanPickStep[] = [];
   currentStep = 1;
   mapStatuses: MapStatus[] = [];
-  showSideSelection: boolean = false;
+  showSideSelection = false;
   currentSideSelection: SideSelection | null = null;
   private subscription!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
-    private sessionService: SessionService
+    private sessionService: SessionService,
   ) {
     this.session$ = this.sessionService.currentSession$;
     this.maps = [
@@ -61,7 +61,7 @@ export class ClientComponent implements OnInit, OnDestroy {
       { name: 'Abyss', imageUrl: '/assets/maps/Abyss.png' },
       { name: 'Pearl', imageUrl: '/assets/maps/Pearl.png' },
       { name: 'Split', imageUrl: '/assets/maps/Split.png' },
-      { name: 'Sunset', imageUrl: '/assets/maps/Sunset.png' }
+      { name: 'Sunset', imageUrl: '/assets/maps/Sunset.png' },
     ];
     this.setupSessionListener();
   }
@@ -83,29 +83,31 @@ export class ClientComponent implements OnInit, OnDestroy {
         console.error('Error getting session:', err);
         this.error = 'Failed to load session';
         this.isLoading = false;
-      }
+      },
     });
   }
 
   private setupSessionListener() {
-    this.subscription = this.sessionService.currentSession$.subscribe(session => {
-      if (session) {
-        if (session.mapStates && session.mapStates.length > 0) {
-          this.mapStatuses = session.mapStates;
-        } else {
-          this.initializeMapStates();
-          // Update initial map states to server
-          this.sessionService.updateMapState(session.id, this.mapStatuses);
+    this.subscription = this.sessionService.currentSession$.subscribe(
+      (session) => {
+        if (session) {
+          if (session.mapStates && session.mapStates.length > 0) {
+            this.mapStatuses = session.mapStates;
+          } else {
+            this.initializeMapStates();
+            // Update initial map states to server
+            this.sessionService.updateMapState(session.id, this.mapStatuses);
+          }
         }
-      }
-    });
+      },
+    );
   }
 
   private initializeMapStates() {
-    this.mapStatuses = this.maps.map(map => ({
+    this.mapStatuses = this.maps.map((map) => ({
       name: map.name,
       imageUrl: map.imageUrl,
-      banned: false
+      banned: false,
     }));
   }
 
@@ -117,7 +119,7 @@ export class ClientComponent implements OnInit, OnDestroy {
         { type: 'ban', team: 'left', step: 3 },
         { type: 'ban', team: 'right', step: 4 },
         { type: 'ban', team: 'left', step: 5 },
-        { type: 'pick', team: 'right', step: 6 }
+        { type: 'pick', team: 'right', step: 6 },
       ];
     } else if (bo === 3) {
       return [
@@ -126,22 +128,24 @@ export class ClientComponent implements OnInit, OnDestroy {
         { type: 'pick', team: 'left', step: 3 },
         { type: 'pick', team: 'right', step: 4 },
         { type: 'ban', team: 'left', step: 5 },
-        { type: 'pick', team: 'right', step: 6 }
+        { type: 'pick', team: 'right', step: 6 },
       ];
-    } else { // bo === 5
+    } else {
+      // bo === 5
       return [
         { type: 'ban', team: 'left', step: 1 },
         { type: 'ban', team: 'right', step: 2 },
         { type: 'pick', team: 'left', step: 3 },
         { type: 'pick', team: 'right', step: 4 },
         { type: 'pick', team: 'left', step: 5 },
-        { type: 'pick', team: 'right', step: 6 }
+        { type: 'pick', team: 'right', step: 6 },
       ];
     }
   }
 
   private getRemainingMaps(): number {
-    return this.mapStatuses.filter(map => !map.banned && !map.selectedBy).length;
+    return this.mapStatuses.filter((map) => !map.banned && !map.selectedBy)
+      .length;
   }
 
   getCurrentTurn(bo: number, session: Session): string {
@@ -150,52 +154,63 @@ export class ClientComponent implements OnInit, OnDestroy {
     }
 
     if (this.showSideSelection && this.currentSideSelection) {
-      const selectingTeamName = this.currentSideSelection.selectingTeam === 'left' 
-        ? session.leftTeam : session.rightTeam;
-      const pickedTeamName = this.currentSideSelection.pickingTeam === 'left'
-        ? session.leftTeam : session.rightTeam;
+      const selectingTeamName =
+        this.currentSideSelection.selectingTeam === 'left'
+          ? session.leftTeam
+          : session.rightTeam;
+      const pickedTeamName =
+        this.currentSideSelection.pickingTeam === 'left'
+          ? session.leftTeam
+          : session.rightTeam;
       return `${selectingTeamName}'s turn to choose side for ${pickedTeamName}'s pick: ${this.currentSideSelection.mapName}`;
     }
 
-    const step = this.getBanPickOrder(bo).find(s => s.step === this.currentStep);
+    const step = this.getBanPickOrder(bo).find(
+      (s) => s.step === this.currentStep,
+    );
     if (!step) return 'Map selection complete';
-    
+
     if (this.getRemainingMaps() === 2 && step.team === 'right') {
       return `${session.rightTeam}'s turn to ban (Decider map will be remaining map)`;
     }
-    
-    const teamName = step.team === 'left' ? session.leftTeam : session.rightTeam;
+
+    const teamName =
+      step.team === 'left' ? session.leftTeam : session.rightTeam;
     return `${teamName}'s turn to ${step.type}`;
   }
 
   onMapClick(map: MapStatus, session: Session) {
     if (map.banned || map.selectedBy) return;
-      
-    const step = this.getBanPickOrder(session.Bo).find(s => s.step === this.currentStep);
+
+    const step = this.getBanPickOrder(session.Bo).find(
+      (s) => s.step === this.currentStep,
+    );
     if (!step) return;
-  
+
     const remainingMaps = this.getRemainingMaps();
-    
+
     if (remainingMaps === 2 && step.team === 'right' && session.Bo !== 5) {
       // Last ban by right team
       map.banned = true;
       map.bannedBy = 'right';
-      
+
       // Find and mark remaining map as decider
-      const deciderMap = this.mapStatuses.find(m => !m.banned && !m.selectedBy);
+      const deciderMap = this.mapStatuses.find(
+        (m) => !m.banned && !m.selectedBy,
+      );
       if (deciderMap) {
         deciderMap.selectedBy = 'right'; // Mark as selected by right team
         this.currentSideSelection = {
           mapName: deciderMap.name,
-          selectingTeam: 'left',     // Ensure left team chooses side for decider
-          pickingTeam: 'right'       // Right team picked the map
+          selectingTeam: 'left', // Ensure left team chooses side for decider
+          pickingTeam: 'right', // Right team picked the map
         };
         this.showSideSelection = true;
       }
       this.sessionService.updateMapState(session.id, this.mapStatuses);
       return;
     }
-  
+
     // Normal flow for other cases
     if (step.type === 'ban') {
       map.banned = true;
@@ -206,7 +221,7 @@ export class ClientComponent implements OnInit, OnDestroy {
       this.currentSideSelection = {
         mapName: map.name,
         selectingTeam: step.team === 'left' ? 'right' : 'left',
-        pickingTeam: step.team
+        pickingTeam: step.team,
       };
       this.showSideSelection = true;
     }
@@ -215,8 +230,10 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   onSideSelect(side: 'attacker' | 'defender') {
     if (!this.currentSideSelection) return;
-    
-    const map = this.mapStatuses.find(m => m.name === this.currentSideSelection!.mapName);
+
+    const map = this.mapStatuses.find(
+      (m) => m.name === this.currentSideSelection!.mapName,
+    );
     if (!map) return;
 
     map.side = side;

@@ -1,20 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
 
 * {
-    font-family: "Anton", serif;
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Anton", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 html {
-    background-color: rgba(0, 0, 0, 0);
-    display: flex;
-    justify-content: center;
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }

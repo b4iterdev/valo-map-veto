@@ -3,7 +3,7 @@ import { io, Socket } from 'socket.io-client';
 import { Config } from '../shared/config';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SocketService {
   private socket: Socket;

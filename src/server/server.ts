@@ -1,4 +1,4 @@
-require("dotenv").config();
+require('dotenv').config();
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
@@ -20,7 +20,7 @@ interface Session {
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: { origin: '*' }
+  cors: { origin: '*' },
 });
 
 const sessions = new Map<string, Session>();
@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
       leftTeam,
       rightTeam,
       Bo,
-      mapStates: []
+      mapStates: [],
     };
     sessions.set(session.id, session);
     console.log('Session created:', session);
