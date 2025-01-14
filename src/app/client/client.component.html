@@ -51,10 +51,10 @@
     <div class="side-selection-modal">
       <h2 class="title">Choose side for {{ currentSideSelection?.mapName }}</h2>
       <div class="side-options">
-        <button class="side-button defender" (click)="onSideSelect('defender')">
+        <button class="side-button defender" (click)="onSideSelect('attacker')">
           DEFENDER
         </button>
-        <button class="side-button attacker" (click)="onSideSelect('attacker')">
+        <button class="side-button attacker" (click)="onSideSelect('defender')">
           ATTACKER
         </button>
       </div>
