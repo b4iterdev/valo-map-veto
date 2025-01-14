@@ -1,59 +1,19 @@
-# ValoMapVeto
+# Valorant Map Veto Helper 
+Valorant Map and Side selection Helper, which deploy a WebUI for tournament organizer to conduct map veto on offline event.
+# Features
+Differ from other available map veto in the internet, this is especially designed for offline event, where the hosts will call team leaders to start veto, and the host will be the one who does changes, based on verbal answers from both team leaders.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
+Also this stictly follows VCT Map Veto Process.
+# Configuration
+Abilities to change `serverUrl` are WIP. You would likely to change `serverUrl` in `app/shared/config.ts` point to the URL where the server is hosted at.
 
-## Development server
+In the future you can easily change by changing `serverUrl` at `config/config.json`. But that will not work for now.
 
-To start a local development server, run:
+# Installation
+More flexible installation using Docker are WIP. 
 
-```bash
-ng serve
-```
+While for local deployment you can simply run `npm install` and `npm start:prod` to start both the frontend and server, or `npm start:server` to only start the server and `npm build` to build static site for serving with existing web server.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Also worth noting that you might need to rebuild the static site when you change `serverUrl` as indicated in #Configuration
+# Legal disclaimer
+Valorant Map Veto Helper  was created under Riot Games's "Legal Jibber Jabber" policy using assets owned by Riot Games. Valorant Map Veto Helper isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
