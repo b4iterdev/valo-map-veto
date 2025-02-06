@@ -1,17 +1,17 @@
 import { Routes } from '@angular/router';
-import { AdminComponent } from './admin/admin.component';
 import { ClientComponent } from './client/client.component';
+import { MatchCreateComponent } from './match-create/match-create.component';
 
 const routes: Routes = [
   {
-    path: 'admin',
-    component: AdminComponent,
-    title: 'Admin Page',
+    path: '',
+    component: MatchCreateComponent,
+    title: 'Valorant Veto Helper',
   },
   {
     path: 'client',
     component: ClientComponent,
-    title: 'Client Page',
+    title: 'Valorant Veto Helper - Client Page',
   },
 ];
 export default routes;
