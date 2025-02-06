@@ -8,7 +8,17 @@ import { SessionService } from '../services/session.service';
   templateUrl: './match-create.component.html',
   styleUrl: './match-create.component.scss'
 })
+
 export class MatchCreateComponent {
+  mapList =  ["Ascent", "Bind", "Haven", "Icebox", "Split"];
+  vetoOrder = [
+    { order : 1, type: 'ban' , map: 0 },
+    { order : 2, type: 'ban' , map: 1 },
+    { order : 3, type: 'pick' , map: 0 , side: 1 },
+    { order : 4, type: 'pick' , map: 1 , side: 0 },
+    { order : 5, type: 'ban' , map: 0 },
+    { order : 6, type: 'decider' , map: 1, side: 0 },
+  ];
   generatedUrl: string | null = null;
   isLoading = false;
   error: string | null = null;
@@ -37,7 +47,7 @@ export class MatchCreateComponent {
     }
     this.isLoading = true;
     this.error = null;
-    this.sessionService.createSession(leftName, rightName, Bo);
+    this.sessionService.createSession(leftName, rightName, Bo, this.mapList, this.vetoOrder);
   }
   copyUrl() {
     if (this.generatedUrl) {

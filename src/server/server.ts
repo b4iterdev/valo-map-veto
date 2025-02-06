@@ -21,7 +21,13 @@ interface Session {
   rightTeam: string;
   bestOf: number;
   mapStates: MapState[];
-  vetoOrder: string[];
+  vetoOrder: vetoOrder[];
+}
+interface vetoOrder {
+  order: number;
+  type: string;
+  map: number;
+  side?: number;
 }
 
 interface ValorantMap {

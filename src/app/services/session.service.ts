@@ -22,6 +22,13 @@ export interface Session {
   vetoOrder?: string[];
 }
 
+export interface vetoOrder {
+  order: number;
+  type: string;
+  map: number;
+  side?: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -54,15 +61,9 @@ export class SessionService {
     });
   }
 
-  createSession(leftTeam: string, rightTeam: string, bestOf: number): void {
+  createSession(leftTeam: string, rightTeam: string, bestOf: number, mapList:string[], vetoOrder:vetoOrder[]): void {
     const socket = this.socketService.getSocket();
-    socket.emit('createSession', { leftTeam, rightTeam, bestOf, mapList: ["Ascent", "Bind", "Haven", "Icebox", "Split"] , vetoOrder: [
-      { "order" : 1, "type": "ban" , "map": 0 },
-      { "order" : 2, "type": "ban" , "map": 1 },
-      { "order" : 3, "type": "pick" , "map": 0 , "side": 1 },
-      { "order" : 4, "type": "pick" , "map": 1 , "side": 0 },
-      { "order" : 5, "type": "ban" , "map": 0 },
-      { "order" : 6, "type": "decider" , "map": 1, "side": 0 }]});
+    socket.emit('createSession', { leftTeam, rightTeam, bestOf, mapList , vetoOrder });
   }
 
   getSession(sessionId: string): void {
