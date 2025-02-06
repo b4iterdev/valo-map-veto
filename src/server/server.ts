@@ -9,6 +9,7 @@ interface MapState {
   name: string;
   imageUrl: string;
   banned: boolean;
+  picked: boolean;
   bannedBy?: 0 | 1;
   side?: 0 | 1;
   selectedBy?: 0 | 1;
@@ -67,7 +68,8 @@ async function initializeMapStates(mapList: string[]): Promise<MapState[]> {
     return {
       name: mapName,
       imageUrl,
-      banned: false
+      banned: false,
+      picked: false,
     };
   });
 

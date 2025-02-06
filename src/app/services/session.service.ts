@@ -6,6 +6,7 @@ export interface MapState {
   name: string;
   imageUrl: string;
   banned: boolean;
+  picked: boolean;
   bannedBy?: 0 | 1;
   side?: 0 | 1;
   selectedBy?: 0 | 1;
