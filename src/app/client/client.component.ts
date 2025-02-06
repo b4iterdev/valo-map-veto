@@ -33,7 +33,6 @@ export class ClientComponent implements OnInit{
       (session) => {
         if (session) {
           this.curSession = session;
-          
           console.log('Session:', this.curSession);
           this.isLoading = false;
         }

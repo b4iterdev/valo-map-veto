@@ -21,6 +21,7 @@ export interface Session {
   mapList: string[];
   mapStates: MapState[];
   vetoOrder?: string[];
+  finished: boolean;
 }
 
 export interface vetoOrder {

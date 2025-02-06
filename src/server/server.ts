@@ -4,6 +4,8 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
+import * as fs from 'fs';
+import * as path from 'path';
 
 interface MapState {
   name: string;
@@ -23,6 +25,7 @@ interface Session {
   bestOf: number;
   mapStates: MapState[];
   vetoOrder: vetoOrder[];
+  finished: boolean;
 }
 interface vetoOrder {
   order: number;
@@ -79,6 +82,22 @@ async function initializeMapStates(mapList: string[]): Promise<MapState[]> {
   return mapStates;
 }
 
+function saveFinishedSession(session: Session) {
+  const resultDir = path.join(__dirname, '../../result');
+  
+  // Create result directory if it doesn't exist
+  if (!fs.existsSync(resultDir)) {
+    fs.mkdirSync(resultDir, { recursive: true });
+  }
+
+  // Save session to file
+  const filePath = path.join(resultDir, `${session.id}.json`);
+  fs.writeFileSync(filePath, JSON.stringify(session, null, 2));
+
+  // Remove session from memory
+  sessions.delete(session.id);
+}
+
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -98,6 +117,7 @@ io.on('connection', (socket) => {
       bestOf,
       mapStates: [],
       vetoOrder,
+      finished: false,
     };
     sessions.set(session.id, session);
     session.mapStates = await initializeMapStates(mapList);
@@ -121,6 +141,15 @@ io.on('connection', (socket) => {
       sessions.set(sessionId, session);
       io.emit('mapStatesUpdated', session);
       console.log('Map states updated:', mapStates);
+    }
+  });
+  socket.on('finishSession', (sessionId: string) => {
+    const session = sessions.get(sessionId);
+    if (session) {
+      session.finished = true;
+      saveFinishedSession(session);
+      io.emit('sessionFinished', session);
+      console.log('Session finished:', session);
     }
   });
   socket.on('disconnect', () => {
