@@ -2,21 +2,24 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SocketService } from './socket.service';
 
-export interface Session {
-  id: string;
-  leftTeam: string;
-  rightTeam: string;
-  Bo: number;
-  mapStates: MapState[];
-}
-
 export interface MapState {
   name: string;
   imageUrl: string;
   banned: boolean;
-  bannedBy?: 'left' | 'right';
-  selectedBy?: 'left' | 'right' | 'decider';
-  side?: 'attacker' | 'defender';
+  bannedBy?: 0 | 1;
+  side?: 0 | 1;
+  selectedBy?: 0 | 1;
+  order?: number;
+}
+
+export interface Session {
+  id: string;
+  leftTeam: string;
+  rightTeam: string;
+  bestOf: number;
+  mapList: string[];
+  mapStates: MapState[];
+  vetoOrder?: string[];
 }
 
 @Injectable({
@@ -51,9 +54,15 @@ export class SessionService {
     });
   }
 
-  createSession(leftTeam: string, rightTeam: string, Bo: number): void {
+  createSession(leftTeam: string, rightTeam: string, bestOf: number): void {
     const socket = this.socketService.getSocket();
-    socket.emit('createSession', { leftTeam, rightTeam, Bo });
+    socket.emit('createSession', { leftTeam, rightTeam, bestOf, mapList: ["Ascent", "Bind", "Haven", "Icebox", "Split"] , vetoOrder: [
+      { "order" : 1, "type": "ban" , "map": 0 },
+      { "order" : 2, "type": "ban" , "map": 1 },
+      { "order" : 3, "type": "pick" , "map": 0 , "side": 1 },
+      { "order" : 4, "type": "pick" , "map": 1 , "side": 0 },
+      { "order" : 5, "type": "ban" , "map": 0 },
+      { "order" : 6, "type": "decider" , "map": 1, "side": 0 }]});
   }
 
   getSession(sessionId: string): void {
