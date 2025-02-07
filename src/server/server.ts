@@ -12,9 +12,9 @@ interface MapState {
   imageUrl: string;
   banned: boolean;
   picked: boolean;
-  bannedBy?: 0 | 1;
-  side?: 0 | 1;
-  selectedBy?: 0 | 1;
+  bannedBy?: number;
+  side?: number;
+  selectedBy?: number;
   order?: number;
 }
 
@@ -148,8 +148,7 @@ io.on('connection', (socket) => {
     if (session) {
       session.finished = true;
       saveFinishedSession(session);
-      io.emit('sessionFinished', session);
-      console.log('Session finished:', session);
+      console.log('Session finished:', sessionId);
     }
   });
   socket.on('disconnect', () => {

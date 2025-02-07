@@ -9,7 +9,7 @@
       </div>
   
       <div class="current-turn">
-        {{ getCurrentTurn(session.bestOf, session) }}
+        {{ getCurrentTurn(session) }}
       </div>
   
       <div class="maps-container">
@@ -33,13 +33,13 @@
               class="crossmark"
               alt="Banned"
             />
-            <div *ngIf="map.selectedBy" class="side-info">
+            <div *ngIf="map.selectedBy !== undefined" class="side-info">
               <div class="team">
                 {{
                   map.selectedBy ? session.rightTeam : session.leftTeam
                 }}
               </div>
-              <div class="side">{{ map.side | uppercase }}</div>
+              <div *ngIf="map.side !== undefined" class="side">{{ map.side ? "DEFENDER" : "ATTACKER"}}</div>
             </div>
           </div>
         </div>
@@ -49,12 +49,12 @@
     <!-- Side Selection Modal -->
     <div *ngIf="showSideSelection" class="modal-container">
       <div class="side-selection-modal">
-        <h2 class="title">Choose side for {{ currentSideSelection?.mapName }}</h2>
+        <h2 class="title">Choose side for </h2>
         <div class="side-options">
-          <button class="side-button defender" (click)="onSideSelect('attacker')">
+          <button class="side-button defender" (click)="onSideSelect(0)">
             DEFENDER
           </button>
-          <button class="side-button attacker" (click)="onSideSelect('defender')">
+          <button class="side-button attacker" (click)="onSideSelect(1)">
             ATTACKER
           </button>
         </div>

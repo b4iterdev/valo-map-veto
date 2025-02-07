@@ -10,7 +10,7 @@ import { SessionService } from '../services/session.service';
 })
 
 export class MatchCreateComponent {
-  mapList =  ["Ascent", "Bind", "Haven", "Icebox", "Split"];
+  mapList =  ["Fracture", "Bind", "Haven", "Pearl", "Split","Abyss","Lotus"];
   vetoOrder = [
     { order : 1, type: 'ban' , map: 0 },
     { order : 2, type: 'ban' , map: 1 },
@@ -34,9 +34,42 @@ export class MatchCreateComponent {
     });
   }
   createSession() {
+
     const leftName = (document.getElementById('leftTeam') as HTMLInputElement).value;
     const rightName = (document.getElementById('rightTeam') as HTMLInputElement).value;
     const Bo = parseInt((document.getElementById('Bestof') as HTMLInputElement).value, 10);
+    switch (Bo) {
+      case 3:
+        this.vetoOrder = [
+          { order : 1, type: 'ban' , map: 0 },
+          { order : 2, type: 'ban' , map: 1 },
+          { order : 3, type: 'pick' , map: 0 , side: 1 },
+          { order : 4, type: 'pick' , map: 1 , side: 0 },
+          { order : 5, type: 'ban' , map: 0 },
+          { order : 6, type: 'decider' , map: 1, side: 0 },
+        ];
+        break;
+      case 1:
+        this.vetoOrder = [
+          { order : 1, type: 'ban' , map: 0 },
+          { order : 2, type: 'ban' , map: 1 },
+          { order : 3, type: 'ban' , map: 0 },
+          { order : 4, type: 'ban' , map: 1 },
+          { order : 5, type: 'ban' , map: 0 },
+          { order : 6, type: 'decider' , map: 1, side: 0 },
+        ];
+        break;
+      case 5:
+        this.vetoOrder = [
+          { order : 1, type: 'pick' , map: 0 , side: 1},
+          { order : 2, type: 'pick' , map: 1 , side: 0},
+          { order : 3, type: 'pick' , map: 0 , side: 1},
+          { order : 4, type: 'pick' , map: 1 , side: 0},
+          { order : 5, type: 'ban' , map: 0 },
+          { order : 6, type: 'decider' , map: 1, side: 0 },
+        ];
+        break;
+    }
     if (!leftName || !rightName || isNaN(Bo)) {
       this.error = 'All fields are required / Bo must be a number';
       return;

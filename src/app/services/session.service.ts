@@ -7,9 +7,9 @@ export interface MapState {
   imageUrl: string;
   banned: boolean;
   picked: boolean;
-  bannedBy?: 0 | 1;
-  side?: 0 | 1;
-  selectedBy?: 0 | 1;
+  bannedBy?: number;
+  side?: number;
+  selectedBy?: number;
   order?: number;
 }
 
@@ -20,7 +20,7 @@ export interface Session {
   bestOf: number;
   mapList: string[];
   mapStates: MapState[];
-  vetoOrder?: string[];
+  vetoOrder?: vetoOrder[];
   finished: boolean;
 }
 
@@ -83,5 +83,8 @@ export class SessionService {
       sessionId,
       mapStates,
     });
+  }
+  finishSession(sessionId: string) {
+    this.socketService.getSocket().emit('finishSession', sessionId);
   }
 }
