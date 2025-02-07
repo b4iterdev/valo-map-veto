@@ -63,9 +63,21 @@ export class SessionService {
     });
   }
 
-  createSession(leftTeam: string, rightTeam: string, bestOf: number, mapList:string[], vetoOrder:vetoOrder[]): void {
+  createSession(
+    leftTeam: string,
+    rightTeam: string,
+    bestOf: number,
+    mapList: string[],
+    vetoOrder: vetoOrder[],
+  ): void {
     const socket = this.socketService.getSocket();
-    socket.emit('createSession', { leftTeam, rightTeam, bestOf, mapList , vetoOrder });
+    socket.emit('createSession', {
+      leftTeam,
+      rightTeam,
+      bestOf,
+      mapList,
+      vetoOrder,
+    });
   }
 
   getSession(sessionId: string): void {

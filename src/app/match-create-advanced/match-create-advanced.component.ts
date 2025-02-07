@@ -6,16 +6,24 @@ import { SessionService, vetoOrder } from '../services/session.service';
   selector: 'app-match-create',
   imports: [CommonModule, FormsModule],
   templateUrl: './match-create-advanced.component.html',
-  styleUrl: './match-create-advanced.component.scss'
+  styleUrl: './match-create-advanced.component.scss',
 })
-
 export class MatchCreateAdvancedComponent {
   leftTeam = '';
   rightTeam = '';
   bestOf = 3;
   availableMaps: string[] = [
-    'Ascent', 'Bind', 'Haven', 'Split', 
-    'Icebox', 'Breeze', 'Fracture', 'Pearl', 'Lotus','Sunset','Abyss'
+    'Ascent',
+    'Bind',
+    'Haven',
+    'Split',
+    'Icebox',
+    'Breeze',
+    'Fracture',
+    'Pearl',
+    'Lotus',
+    'Sunset',
+    'Abyss',
   ];
   selectedMaps: string[] = [];
   vetoOrder: vetoOrder[] = [];
@@ -45,21 +53,23 @@ export class MatchCreateAdvancedComponent {
     this.vetoOrder.push({
       order: this.vetoOrder.length + 1,
       type: 'ban',
-      map: 0
+      map: 0,
     });
   }
   removeVeto(index: number) {
     this.vetoOrder.splice(index, 1);
     // Update orders
-    this.vetoOrder.forEach((veto, i) => veto.order = i + 1);
+    this.vetoOrder.forEach((veto, i) => (veto.order = i + 1));
   }
   isValidConfig(): boolean {
-    return this.selectedMaps.length >= 3 && 
-           this.vetoOrder.length >= 1 && 
-           this.selectedMaps.length >= this.vetoOrder.length &&
-           this.leftTeam.trim() !== '' &&
-           this.rightTeam.trim() !== '' &&
-           [1, 3, 5].includes(this.bestOf);
+    return (
+      this.selectedMaps.length >= 3 &&
+      this.vetoOrder.length >= 1 &&
+      this.selectedMaps.length >= this.vetoOrder.length &&
+      this.leftTeam.trim() !== '' &&
+      this.rightTeam.trim() !== '' &&
+      [1, 3, 5].includes(this.bestOf)
+    );
   }
   createSession() {
     if (!this.isValidConfig()) {
@@ -69,15 +79,16 @@ export class MatchCreateAdvancedComponent {
 
     this.isLoading = true;
     this.error = null;
-    
+
     try {
       this.sessionService.createSession(
         this.leftTeam,
         this.rightTeam,
         this.bestOf,
         this.selectedMaps,
-        this.vetoOrder
+        this.vetoOrder,
       );
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       this.error = 'Failed to create session';
       this.isLoading = false;

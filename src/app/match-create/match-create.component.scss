@@ -1,31 +1,31 @@
 .admin-container {
-    padding: 20px;
-  
-    .input-section {
-      margin-bottom: 20px;
-      
+  padding: 20px;
+
+  .input-section {
+    margin-bottom: 20px;
+
+    input {
+      margin-right: 10px;
+      padding: 8px;
+    }
+  }
+
+  .error {
+    color: red;
+    margin: 10px 0;
+  }
+
+  .url-section {
+    margin-top: 20px;
+
+    .url-box {
+      display: flex;
+      gap: 10px;
+
       input {
-        margin-right: 10px;
+        flex: 1;
         padding: 8px;
       }
     }
-  
-    .error {
-      color: red;
-      margin: 10px 0;
-    }
-  
-    .url-section {
-      margin-top: 20px;
-      
-      .url-box {
-        display: flex;
-        gap: 10px;
-        
-        input {
-          flex: 1;
-          padding: 8px;
-        }
-      }
-    }
   }
+}

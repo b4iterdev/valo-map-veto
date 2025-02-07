@@ -1,36 +1,37 @@
 .admin-container {
-    padding: 20px;
-  
-    .input-section {
-      margin-bottom: 20px;
-      
-      input {
-        margin-right: 10px;
-        padding: 8px;
-      }
-    }
-  
-    .error {
-      color: red;
-      margin: 10px 0;
-    }
-  
-    .url-section {
-      margin-top: 20px;
-      
-      .url-box {
-        display: flex;
-        gap: 10px;
-        
-        input {
-          flex: 1;
-          padding: 8px;
-        }
-      }
+  padding: 20px;
+
+  .input-section {
+    margin-bottom: 20px;
+
+    input {
+      margin-right: 10px;
+      padding: 8px;
     }
   }
 
-.map-section, .veto-section {
+  .error {
+    color: red;
+    margin: 10px 0;
+  }
+
+  .url-section {
+    margin-top: 20px;
+
+    .url-box {
+      display: flex;
+      gap: 10px;
+
+      input {
+        flex: 1;
+        padding: 8px;
+      }
+    }
+  }
+}
+
+.map-section,
+.veto-section {
   margin: 20px 0;
   padding: 15px;
   background: rgba(0, 0, 0, 0.2);
@@ -90,7 +91,7 @@
       width: 24px;
       height: 24px;
       cursor: pointer;
-      
+
       &:hover {
         background: #ff2b3a;
       }

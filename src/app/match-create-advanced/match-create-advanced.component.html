@@ -1,7 +1,11 @@
 <div class="admin-container">
   <div class="input-section">
     <input id="leftTeam" [(ngModel)]="leftTeam" placeholder="Left Team Name" />
-    <input id="rightTeam" [(ngModel)]="rightTeam" placeholder="Right Team Name" />
+    <input
+      id="rightTeam"
+      [(ngModel)]="rightTeam"
+      placeholder="Right Team Name"
+    />
     <input
       id="Bestof"
       [(ngModel)]="bestOf"
@@ -17,13 +21,13 @@
     <h3>Select Maps</h3>
     <div class="map-grid">
       <div *ngFor="let map of availableMaps" class="map-item">
-        <input 
+        <input
           type="checkbox"
           [id]="map"
           [checked]="selectedMaps.includes(map)"
           (change)="toggleMap(map)"
         />
-        <label [for]="map">{{map}}</label>
+        <label [for]="map">{{ map }}</label>
       </div>
     </div>
   </div>
@@ -32,7 +36,7 @@
     <h3>Configure Veto Order</h3>
     <div class="veto-list">
       <div *ngFor="let veto of vetoOrder; let i = index" class="veto-item">
-        <span class="order">{{i + 1}}</span>
+        <span class="order">{{ i + 1 }}</span>
         <select [(ngModel)]="veto.type">
           <option value="ban">Ban</option>
           <option value="pick">Pick</option>
@@ -42,7 +46,10 @@
           <option [ngValue]="0">Left Team</option>
           <option [ngValue]="1">Right Team</option>
         </select>
-        <select *ngIf="veto.type === 'pick' || veto.type === 'decider'" [(ngModel)]="veto.side">
+        <select
+          *ngIf="veto.type === 'pick' || veto.type === 'decider'"
+          [(ngModel)]="veto.side"
+        >
           <option [ngValue]="0">Left Side Pick</option>
           <option [ngValue]="1">Right Side Pick</option>
         </select>
@@ -52,9 +59,9 @@
     <button class="add-veto-btn" (click)="addVeto()">Add Veto Step</button>
   </div>
 
-  <button 
-    class="create-btn" 
-    (click)="createSession()" 
+  <button
+    class="create-btn"
+    (click)="createSession()"
     [disabled]="isLoading || !isValidConfig()"
   >
     {{ isLoading ? "Creating..." : "Create Session" }}

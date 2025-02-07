@@ -54,13 +54,13 @@ async function getMapSplashByName(mapName: string): Promise<string | null> {
   try {
     const response = await fetch('https://valorant-api.com/v1/maps');
     const data: ValorantApiResponse = await response.json();
-    
+
     if (data.status !== 200) {
       throw new Error('Failed to fetch map data');
     }
 
     const map = data.data.find(
-      (map) => map.displayName.toLowerCase() === mapName.toLowerCase()
+      (map) => map.displayName.toLowerCase() === mapName.toLowerCase(),
     );
 
     return map ? map.splash : null;
@@ -73,7 +73,7 @@ async function getMapSplashByName(mapName: string): Promise<string | null> {
 async function initializeMapStates(mapList: string[]): Promise<MapState[]> {
   // Create initial states with URLs
   const mapStatesPromises = mapList.map(async (mapName): Promise<MapState> => {
-    const imageUrl = await getMapSplashByName(mapName) || '';
+    const imageUrl = (await getMapSplashByName(mapName)) || '';
     return {
       name: mapName,
       imageUrl,
@@ -108,21 +108,24 @@ const sessions = new Map<string, Session>();
 io.on('connection', (socket) => {
   console.log('Client connected');
 
-  socket.on('createSession', async ({ leftTeam, rightTeam, bestOf, mapList , vetoOrder}) => {
-    const session: Session = {
-      id: uuidv4(),
-      leftTeam,
-      rightTeam,
-      bestOf,
-      mapStates: [],
-      vetoOrder,
-      finished: false,
-    };
-    sessions.set(session.id, session);
-    session.mapStates = await initializeMapStates(mapList);
-    console.log('Session created:', session);
-    socket.emit('sessionCreated', session);
-  });
+  socket.on(
+    'createSession',
+    async ({ leftTeam, rightTeam, bestOf, mapList, vetoOrder }) => {
+      const session: Session = {
+        id: uuidv4(),
+        leftTeam,
+        rightTeam,
+        bestOf,
+        mapStates: [],
+        vetoOrder,
+        finished: false,
+      };
+      sessions.set(session.id, session);
+      session.mapStates = await initializeMapStates(mapList);
+      console.log('Session created:', session);
+      socket.emit('sessionCreated', session);
+    },
+  );
 
   socket.on('getSession', (sessionId: string) => {
     const session = sessions.get(sessionId);
