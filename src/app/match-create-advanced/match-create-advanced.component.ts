@@ -15,7 +15,7 @@ export class MatchCreateAdvancedComponent {
   bestOf = 3;
   availableMaps: string[] = [
     'Ascent', 'Bind', 'Haven', 'Split', 
-    'Icebox', 'Breeze', 'Fracture', 'Pearl', 'Lotus'
+    'Icebox', 'Breeze', 'Fracture', 'Pearl', 'Lotus','Sunset','Abyss'
   ];
   selectedMaps: string[] = [];
   vetoOrder: vetoOrder[] = [];
