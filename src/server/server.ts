@@ -180,17 +180,16 @@ io.on('connection', (socket) => {
   });
 });
 
-
 // Add HTTP endpoint for match creation
 app.get('/create', async (req, res) => {
   try {
     const { leftTeam, rightTeam, bestOf } = req.query;
-    
+
     // Validate input parameters
     if (!leftTeam || !rightTeam || !bestOf) {
       return res.status(400).json({
         status: 'error',
-        message: 'Missing required parameters'
+        message: 'Missing required parameters',
       });
     }
 
@@ -198,12 +197,20 @@ app.get('/create', async (req, res) => {
     if (![1, 3, 5].includes(Bo)) {
       return res.status(400).json({
         status: 'error',
-        message: 'Best of must be 1, 3, or 5'
+        message: 'Best of must be 1, 3, or 5',
       });
     }
 
     // Define default maps and veto order based on Bo
-    const mapList = ['Fracture', 'Bind', 'Haven', 'Pearl', 'Split', 'Abyss', 'Lotus'];
+    const mapList = [
+      'Fracture',
+      'Bind',
+      'Haven',
+      'Pearl',
+      'Split',
+      'Abyss',
+      'Lotus',
+    ];
     let vetoOrder: vetoOrder[];
 
     switch (Bo) {
@@ -240,7 +247,7 @@ app.get('/create', async (req, res) => {
       default:
         return res.status(400).json({
           status: 'error',
-          message: 'Unsupported Bo format'
+          message: 'Unsupported Bo format',
         });
     }
 
@@ -253,7 +260,7 @@ app.get('/create', async (req, res) => {
       bestOf: Bo,
       mapStates: [],
       vetoOrder,
-      finished: false
+      finished: false,
     };
     session.mapStates = await initializeMapStates(mapList);
     saveSession(session);
@@ -264,14 +271,13 @@ app.get('/create', async (req, res) => {
       status: 'success',
       data: {
         sessionId,
-      }
+      },
     });
-
   } catch (error) {
     console.error('Error creating session:', error);
     res.status(500).json({
       status: 'error',
-      message: 'Internal server error'
+      message: 'Internal server error',
     });
   }
 });
@@ -284,7 +290,7 @@ app.get('/session/:sessionId', (req, res) => {
     if (!sessionId) {
       return res.status(400).json({
         status: 'error',
-        message: 'Session ID is required'
+        message: 'Session ID is required',
       });
     }
 
@@ -293,7 +299,7 @@ app.get('/session/:sessionId', (req, res) => {
     if (!fs.existsSync(sessionPath)) {
       return res.status(404).json({
         status: 'error',
-        message: 'Session not found'
+        message: 'Session not found',
       });
     }
 
@@ -304,14 +310,13 @@ app.get('/session/:sessionId', (req, res) => {
     // Return session data
     res.json({
       status: 'success',
-      data: session
+      data: session,
     });
-
   } catch (error) {
     console.error('Error retrieving session:', error);
     res.status(500).json({
       status: 'error',
-      message: 'Internal server error'
+      message: 'Internal server error',
     });
   }
 });
@@ -324,7 +329,7 @@ app.get('/result/:sessionId', (req, res) => {
     if (!sessionId) {
       return res.status(400).json({
         status: 'error',
-        message: 'Session ID is required'
+        message: 'Session ID is required',
       });
     }
 
@@ -333,7 +338,7 @@ app.get('/result/:sessionId', (req, res) => {
     if (!fs.existsSync(sessionPath)) {
       return res.status(404).json({
         status: 'error',
-        message: 'Session not found'
+        message: 'Session not found',
       });
     }
 
@@ -344,14 +349,13 @@ app.get('/result/:sessionId', (req, res) => {
     // Return session data
     res.json({
       status: 'success',
-      data: session
+      data: session,
     });
-
   } catch (error) {
     console.error('Error retrieving session:', error);
     res.status(500).json({
       status: 'error',
-      message: 'Internal server error'
+      message: 'Internal server error',
     });
   }
 });
