@@ -1,0 +1,113 @@
+.admin-container {
+    padding: 20px;
+  
+    .input-section {
+      margin-bottom: 20px;
+      
+      input {
+        margin-right: 10px;
+        padding: 8px;
+      }
+    }
+  
+    .error {
+      color: red;
+      margin: 10px 0;
+    }
+  
+    .url-section {
+      margin-top: 20px;
+      
+      .url-box {
+        display: flex;
+        gap: 10px;
+        
+        input {
+          flex: 1;
+          padding: 8px;
+        }
+      }
+    }
+  }
+
+.map-section, .veto-section {
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+
+  h3 {
+    color: #000000;
+    margin-bottom: 15px;
+  }
+}
+
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+
+  .map-item {
+    color: #000000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    input[type="checkbox"] {
+      accent-color: #ff4655;
+    }
+  }
+}
+
+.veto-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .veto-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .order {
+      color: #fff;
+      min-width: 20px;
+    }
+
+    select {
+      padding: 8px;
+      background: #2b2b2b;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 4px;
+    }
+
+    .remove-btn {
+      background: #ff4655;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      
+      &:hover {
+        background: #ff2b3a;
+      }
+    }
+  }
+}
+
+.add-veto-btn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #2b2b2b;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: #3b3b3b;
+  }
+}
