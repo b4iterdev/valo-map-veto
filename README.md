@@ -22,6 +22,14 @@ While for local deployment you can simply run `npm install` and `npm start:prod`
 
 Also worth noting that you might need to rebuild the static site when you change `serverUrl` as indicated in #Configuration
 
+# Usage:
+On static, going to root will get you to simple match creation, which uses current competition map pool and standard veto order.
+* [/create-advanced](https://veto.b4iterdev.net.eu.org/create-advanced) Allows you to change map pool and veto order, keep in mind that best of input box in this case only served to store, as it's affected by your veto order.
+
+On server endpoint: 3 endpoint are available:
+* `/create?leftTeam=(Left Team Name)&rightTeam=(Right Team Name)&bestOf=(1,3,5)` will create a match with current competition map pool and standard veto order. Return `sessionId` if success
+* `/session/:sessionId`: Return ongoing veto session data.
+* `/result/:sessionId`: Return finished veto session data.
 # Legal disclaimer
 
 Valorant Map Veto Helper was created under Riot Games's "Legal Jibber Jabber" policy using assets owned by Riot Games. Valorant Map Veto Helper isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
