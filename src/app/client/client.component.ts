@@ -38,7 +38,6 @@ export class ClientComponent  {
       (session) => {
         if (session) {
           this.curSession = session;
-          console.log('Session:', this.curSession);
           this.isLoading = false;
         }
     });
@@ -67,7 +66,6 @@ export class ClientComponent  {
         this.curOrder = maxOrder + 1;
       }
     }
-    console.log('Current order:', this.curOrder);
     // Find current turn in vetoOrder
     this.currentVeto = session.vetoOrder?.find(veto => veto.order === this.curOrder);
     if (!this.currentVeto) {
@@ -82,13 +80,17 @@ export class ClientComponent  {
   
     if (this.currentVeto.type === "ban") {
     return `${team}'s turn to ban`;
-    } else if (this.currentVeto.type === "pick" || this.currentVeto.type === "decider") {
+    } 
+    else if (this.currentVeto.type === "pick") {
     if (this.currentVeto.side === undefined) {
       return `${team}'s turn to pick`;
     } else {
       const sidePicker = this.currentVeto.side === 0 ? session.leftTeam : session.rightTeam;
       return `${team}'s turn to pick, ${sidePicker} picks side`;
     }
+  } else if (this.currentVeto.type === "decider") {
+    const sidePicker = this.currentVeto.side === 0 ? session.leftTeam : session.rightTeam;
+    return `${team}'s turn to ban for decider, ${sidePicker} picks side`;
   }
 
   return "Unknown turn state";
@@ -149,7 +151,6 @@ export class ClientComponent  {
   if (session.id && this.targetId) {
     this.sessionService.updateMapState(this.targetId, session.mapStates);
   }
-    console.log('Updated map:', session.mapStates);
   }
 
   onSideSelect(side: number) {
@@ -182,6 +183,12 @@ export class ClientComponent  {
   if (this.targetId && this.curSession.id) {
     this.sessionService.updateMapState(this.targetId, this.curSession.mapStates);
   }
-  console.log('Side selected:', side, 'for map:', this.map.name);
+  }
+  showSide(map: MapState): string {
+    console.log(map);
+    return map.side === 0 ? 'DEFENDER' : 'ATTACKER';
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

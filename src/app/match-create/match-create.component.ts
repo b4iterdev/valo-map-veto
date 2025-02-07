@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SessionService } from '../services/session.service';
+import { SessionService, vetoOrder } from '../services/session.service';
 @Component({
   selector: 'app-match-create',
   imports: [CommonModule, FormsModule],
@@ -11,14 +11,7 @@ import { SessionService } from '../services/session.service';
 
 export class MatchCreateComponent {
   mapList =  ["Fracture", "Bind", "Haven", "Pearl", "Split","Abyss","Lotus"];
-  vetoOrder = [
-    { order : 1, type: 'ban' , map: 0 },
-    { order : 2, type: 'ban' , map: 1 },
-    { order : 3, type: 'pick' , map: 0 , side: 1 },
-    { order : 4, type: 'pick' , map: 1 , side: 0 },
-    { order : 5, type: 'ban' , map: 0 },
-    { order : 6, type: 'decider' , map: 1, side: 0 },
-  ];
+  vetoOrder: vetoOrder[] = [];
   generatedUrl: string | null = null;
   isLoading = false;
   error: string | null = null;
@@ -34,7 +27,6 @@ export class MatchCreateComponent {
     });
   }
   createSession() {
-
     const leftName = (document.getElementById('leftTeam') as HTMLInputElement).value;
     const rightName = (document.getElementById('rightTeam') as HTMLInputElement).value;
     const Bo = parseInt((document.getElementById('Bestof') as HTMLInputElement).value, 10);

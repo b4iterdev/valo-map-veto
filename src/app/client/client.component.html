@@ -39,7 +39,7 @@
                   map.selectedBy ? session.rightTeam : session.leftTeam
                 }}
               </div>
-              <div *ngIf="map.side !== undefined" class="side">{{ map.side ? "DEFENDER" : "ATTACKER"}}</div>
+              <div *ngIf="map.side !== undefined" class="side">{{ showSide(map) }}</div>
             </div>
           </div>
         </div>
