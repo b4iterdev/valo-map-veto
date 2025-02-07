@@ -1,0 +1,33 @@
+services:
+  server:
+    container_name: valo-map-veto-server
+    image: valo-map-veto-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./sessions:/app/sessions
+      - ./result:/app/result
+    networks:
+      - networkName
+    restart: unless-stopped
+  static:
+    container_name: valo-map-veto-static
+    image: valo-map-veto-static
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: static
+      build_args:
+        - TARGET=static
+    ports:
+      - "80:80"
+    networks:
+      - networkName
+    restart: unless-stopped
+networks:
+  networkName:
+    driver: bridge
