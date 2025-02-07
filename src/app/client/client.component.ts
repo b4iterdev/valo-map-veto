@@ -185,8 +185,24 @@ export class ClientComponent  {
   }
   }
   showSide(map: MapState): string {
-    console.log(map);
-    return map.side === 0 ? 'DEFENDER' : 'ATTACKER';
+    if (!this.curSession || !map.order || map.side === undefined || map.selectedBy === undefined) {
+      return '';
+    }
+  
+    // Find the corresponding veto order for this map
+    const matchingVeto = this.curSession.vetoOrder?.find(veto => veto.order === map.order);
+    
+    if (!matchingVeto) {
+      return '';
+    }
+  
+    // If the selecting team matches the side-picking team
+    if (map.selectedBy === matchingVeto.side) {
+      return map.side === 0 ? 'DEFENDER' : 'ATTACKER';
+    } else {
+      // If teams don't match, reverse the sides
+      return map.side === 0 ? 'ATTACKER' : 'DEFENDER';
+    }
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
