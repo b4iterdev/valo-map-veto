@@ -44,10 +44,15 @@ interface ValorantApiResponse {
   data: ValorantMap[];
 }
 
+const sessionsDir = path.join(__dirname, '../../sessions');
 const resultDir = path.join(__dirname, '../../result');
 
 if (!fs.existsSync(resultDir)) {
   fs.mkdirSync(resultDir, { recursive: true });
+}
+
+if (!fs.existsSync(sessionsDir)) {
+  fs.mkdirSync(sessionsDir, { recursive: true });
 }
 
 async function getMapSplashByName(mapName: string): Promise<string | null> {
@@ -88,14 +93,27 @@ async function initializeMapStates(mapList: string[]): Promise<MapState[]> {
   return mapStates;
 }
 
-function saveFinishedSession(session: Session) {
-  // Save session to file
-  const filePath = path.join(resultDir, `${session.id}.json`);
+function saveSession(session: Session) {
+  const filePath = path.join(sessionsDir, `${session.id}.json`);
   fs.writeFileSync(filePath, JSON.stringify(session, null, 2));
-
-  // Remove session from memory
-  sessions.delete(session.id);
 }
+
+function getSession(sessionId: string): Session | null {
+  const filePath = path.join(sessionsDir, `${sessionId}.json`);
+  if (fs.existsSync(filePath)) {
+    const data = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(data);
+  }
+  return null;
+}
+
+function deleteSession(sessionId: string) {
+  const filePath = path.join(sessionsDir, `${sessionId}.json`);
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+  }
+}
+
 
 const app = express();
 const httpServer = createServer(app);
@@ -103,7 +121,6 @@ const io = new Server(httpServer, {
   cors: { origin: '*' },
 });
 
-const sessions = new Map<string, Session>();
 // Socket event handlers
 io.on('connection', (socket) => {
   console.log('Client connected');
@@ -120,15 +137,15 @@ io.on('connection', (socket) => {
         vetoOrder,
         finished: false,
       };
-      sessions.set(session.id, session);
       session.mapStates = await initializeMapStates(mapList);
+      saveSession(session);
       console.log('Session created:', session);
       socket.emit('sessionCreated', session);
     },
   );
 
   socket.on('getSession', (sessionId: string) => {
-    const session = sessions.get(sessionId);
+    const session = getSession(sessionId);
     if (session) {
       socket.emit('sessionData', session);
     } else {
@@ -137,19 +154,22 @@ io.on('connection', (socket) => {
   });
 
   socket.on('updateMapStates', ({ sessionId, mapStates }) => {
-    const session = sessions.get(sessionId);
+    const session = getSession(sessionId);
     if (session) {
       session.mapStates = mapStates;
-      sessions.set(sessionId, session);
+      saveSession(session);
       io.emit('mapStatesUpdated', session);
       console.log('Map states updated:', mapStates);
     }
   });
   socket.on('finishSession', (sessionId: string) => {
-    const session = sessions.get(sessionId);
+    const session = getSession(sessionId);
     if (session) {
       session.finished = true;
-      saveFinishedSession(session);
+      // Move to result directory instead of sessions
+      const resultPath = path.join(resultDir, `${session.id}.json`);
+      fs.writeFileSync(resultPath, JSON.stringify(session, null, 2));
+      deleteSession(sessionId); // Remove from sessions directory
       console.log('Session finished:', sessionId);
     }
   });
