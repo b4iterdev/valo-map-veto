@@ -19,6 +19,7 @@ export class ClientComponent implements OnInit{
   targetId: string | null = null;
   isLoading = true;
   error: string | null = null;
+  map: MapState | null = null;
   private subscription!: Subscription;
   constructor(private sessionService: SessionService, private route: ActivatedRoute,) {
     this.route.queryParams.subscribe((params) => {
@@ -41,4 +42,7 @@ export class ClientComponent implements OnInit{
   ngOnInit(): void {
     
   }
+  getCurrentTurn(bestOf: number, session): vetoOrder {
+  }
+  onMapClick() {}
 }
