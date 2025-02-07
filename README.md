@@ -6,7 +6,7 @@ Valorant Map and Side selection Helper, which deploy a WebUI for tournament orga
 
 Differ from other available map veto in the internet, this is especially designed for offline event, where the hosts will call team leaders to start veto, and the host will be the one who does changes, based on verbal answers from both team leaders.
 
-Also this stictly follows VCT Map Veto Process.
+Also this stictly follows VCT Map Veto Process. You can customize your veto order on `/create-advanced`, and even use HTTP request to create a match, which returns JSON type with status and generated id.
 
 # Configuration
 
