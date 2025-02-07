@@ -26,7 +26,7 @@ Also worth noting that you might need to rebuild the static site when you change
 On static, going to root will get you to simple match creation, which uses current competition map pool and standard veto order.
 * [/create-advanced](https://veto.b4iterdev.net.eu.org/create-advanced) Allows you to change map pool and veto order, keep in mind that best of input box in this case only served to store, as it's affected by your veto order.
 
-On server endpoint: 3 endpoint are available:
+On server endpoint: 3 endpoint are available: (Demo server: https://veto-server.b4iterdev.net.eu.org/)
 * `/create?leftTeam=(Left Team Name)&rightTeam=(Right Team Name)&bestOf=(1,3,5)` will create a match with current competition map pool and standard veto order. Return `sessionId` if success
 * `/session/:sessionId`: Return ongoing veto session data.
 * `/result/:sessionId`: Return finished veto session data.
