@@ -44,6 +44,12 @@ interface ValorantApiResponse {
   data: ValorantMap[];
 }
 
+const resultDir = path.join(__dirname, '../../result');
+
+if (!fs.existsSync(resultDir)) {
+  fs.mkdirSync(resultDir, { recursive: true });
+}
+
 async function getMapSplashByName(mapName: string): Promise<string | null> {
   try {
     const response = await fetch('https://valorant-api.com/v1/maps');
@@ -83,13 +89,6 @@ async function initializeMapStates(mapList: string[]): Promise<MapState[]> {
 }
 
 function saveFinishedSession(session: Session) {
-  const resultDir = path.join(__dirname, '../../result');
-  
-  // Create result directory if it doesn't exist
-  if (!fs.existsSync(resultDir)) {
-    fs.mkdirSync(resultDir, { recursive: true });
-  }
-
   // Save session to file
   const filePath = path.join(resultDir, `${session.id}.json`);
   fs.writeFileSync(filePath, JSON.stringify(session, null, 2));
