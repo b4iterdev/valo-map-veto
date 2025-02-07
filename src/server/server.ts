@@ -4,6 +4,7 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
+import cors from 'cors';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -115,6 +116,8 @@ function deleteSession(sessionId: string) {
 }
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: { origin: '*' },
@@ -175,6 +178,182 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('Client disconnected');
   });
+});
+
+
+// Add HTTP endpoint for match creation
+app.get('/create', async (req, res) => {
+  try {
+    const { leftTeam, rightTeam, bestOf } = req.query;
+    
+    // Validate input parameters
+    if (!leftTeam || !rightTeam || !bestOf) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Missing required parameters'
+      });
+    }
+
+    const Bo = parseInt(bestOf as string);
+    if (![1, 3, 5].includes(Bo)) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Best of must be 1, 3, or 5'
+      });
+    }
+
+    // Define default maps and veto order based on Bo
+    const mapList = ['Fracture', 'Bind', 'Haven', 'Pearl', 'Split', 'Abyss', 'Lotus'];
+    let vetoOrder: vetoOrder[];
+
+    switch (Bo) {
+      case 3:
+        vetoOrder = [
+          { order: 1, type: 'ban', map: 0 },
+          { order: 2, type: 'ban', map: 1 },
+          { order: 3, type: 'pick', map: 0, side: 1 },
+          { order: 4, type: 'pick', map: 1, side: 0 },
+          { order: 5, type: 'ban', map: 0 },
+          { order: 6, type: 'decider', map: 1, side: 0 },
+        ];
+        break;
+      case 1:
+        vetoOrder = [
+          { order: 1, type: 'ban', map: 0 },
+          { order: 2, type: 'ban', map: 1 },
+          { order: 3, type: 'ban', map: 0 },
+          { order: 4, type: 'ban', map: 1 },
+          { order: 5, type: 'ban', map: 0 },
+          { order: 6, type: 'decider', map: 1, side: 0 },
+        ];
+        break;
+      case 5:
+        vetoOrder = [
+          { order: 1, type: 'pick', map: 0, side: 1 },
+          { order: 2, type: 'pick', map: 1, side: 0 },
+          { order: 3, type: 'pick', map: 0, side: 1 },
+          { order: 4, type: 'pick', map: 1, side: 0 },
+          { order: 5, type: 'ban', map: 0 },
+          { order: 6, type: 'decider', map: 1, side: 0 },
+        ];
+        break;
+      default:
+        return res.status(400).json({
+          status: 'error',
+          message: 'Unsupported Bo format'
+        });
+    }
+
+    // Create new session
+    const sessionId = uuidv4();
+    const session: Session = {
+      id: sessionId,
+      leftTeam: leftTeam as string,
+      rightTeam: rightTeam as string,
+      bestOf: Bo,
+      mapStates: [],
+      vetoOrder,
+      finished: false
+    };
+    session.mapStates = await initializeMapStates(mapList);
+    saveSession(session);
+    console.log('Session created:', session);
+
+    // Return success response
+    res.json({
+      status: 'success',
+      data: {
+        sessionId,
+      }
+    });
+
+  } catch (error) {
+    console.error('Error creating session:', error);
+    res.status(500).json({
+      status: 'error',
+      message: 'Internal server error'
+    });
+  }
+});
+
+app.get('/session/:sessionId', (req, res) => {
+  try {
+    const { sessionId } = req.params;
+
+    // Validate session ID
+    if (!sessionId) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Session ID is required'
+      });
+    }
+
+    // Check if session exists
+    const sessionPath = path.join(sessionsDir, `${sessionId}.json`);
+    if (!fs.existsSync(sessionPath)) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Session not found'
+      });
+    }
+
+    // Read and parse session data
+    const sessionData = fs.readFileSync(sessionPath, 'utf8');
+    const session: Session = JSON.parse(sessionData);
+
+    // Return session data
+    res.json({
+      status: 'success',
+      data: session
+    });
+
+  } catch (error) {
+    console.error('Error retrieving session:', error);
+    res.status(500).json({
+      status: 'error',
+      message: 'Internal server error'
+    });
+  }
+});
+
+app.get('/result/:sessionId', (req, res) => {
+  try {
+    const { sessionId } = req.params;
+
+    // Validate session ID
+    if (!sessionId) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Session ID is required'
+      });
+    }
+
+    // Check if session exists
+    const sessionPath = path.join(resultDir, `${sessionId}.json`);
+    if (!fs.existsSync(sessionPath)) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Session not found'
+      });
+    }
+
+    // Read and parse session data
+    const sessionData = fs.readFileSync(sessionPath, 'utf8');
+    const session: Session = JSON.parse(sessionData);
+
+    // Return session data
+    res.json({
+      status: 'success',
+      data: session
+    });
+
+  } catch (error) {
+    console.error('Error retrieving session:', error);
+    res.status(500).json({
+      status: 'error',
+      message: 'Internal server error'
+    });
+  }
 });
 
 const PORT = process.env['PORT'] || 3000;
