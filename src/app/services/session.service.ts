@@ -15,8 +15,11 @@ export interface MapState {
 
 export interface Session {
   id: string;
+  logo: string;
   leftTeam: string;
+  leftLogo: string;
   rightTeam: string;
+  rightLogo: string;
   bestOf: number;
   mapList: string[];
   mapStates: MapState[];
@@ -64,16 +67,22 @@ export class SessionService {
   }
 
   createSession(
+    logo: string,
     leftTeam: string,
+    leftLogo: string,
     rightTeam: string,
+    rightLogo: string,
     bestOf: number,
     mapList: string[],
     vetoOrder: vetoOrder[],
   ): void {
     const socket = this.socketService.getSocket();
     socket.emit('createSession', {
+      logo,
       leftTeam,
+      leftLogo,
       rightTeam,
+      rightLogo,
       bestOf,
       mapList,
       vetoOrder,

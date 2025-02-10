@@ -14,7 +14,11 @@
       {{ isLoading ? "Creating..." : "Create Session" }}
     </button>
   </div>
-
+  <div class="input-section">
+    <input id="leftLogo" placeholder="Left Team Logo" />
+    <input id="rightLogo" placeholder="Right Team Logo" />
+    <input id="placeholder-logo" placeholder="Organizer Logo" />
+  </div>
   <div *ngIf="error" class="error">
     {{ error }}
   </div>

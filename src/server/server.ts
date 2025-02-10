@@ -21,8 +21,11 @@ interface MapState {
 
 interface Session {
   id: string;
+  logo: string;
   leftTeam: string;
+  leftLogo: string;
   rightTeam: string;
+  rightLogo: string;
   bestOf: number;
   mapStates: MapState[];
   vetoOrder: vetoOrder[];
@@ -129,11 +132,14 @@ io.on('connection', (socket) => {
 
   socket.on(
     'createSession',
-    async ({ leftTeam, rightTeam, bestOf, mapList, vetoOrder }) => {
+    async ({ logo, leftTeam, leftLogo, rightTeam, rightLogo, bestOf, mapList, vetoOrder }) => {
       const session: Session = {
         id: uuidv4(),
+        logo,
         leftTeam,
+        leftLogo,
         rightTeam,
+        rightLogo,
         bestOf,
         mapStates: [],
         vetoOrder,
@@ -183,7 +189,7 @@ io.on('connection', (socket) => {
 // Add HTTP endpoint for match creation
 app.get('/create', async (req, res) => {
   try {
-    const { leftTeam, rightTeam, bestOf } = req.query;
+    const { leftTeam, rightTeam, bestOf, leftLogo, rightLogo } = req.query;
 
     // Validate input parameters
     if (!leftTeam || !rightTeam || !bestOf) {
@@ -255,8 +261,11 @@ app.get('/create', async (req, res) => {
     const sessionId = uuidv4();
     const session: Session = {
       id: sessionId,
+      logo: 'assets/mics/V_Lockup_Horizontal_Pos_Off-White.png',
       leftTeam: leftTeam as string,
+      leftLogo: leftLogo as string,
       rightTeam: rightTeam as string,
+      rightLogo: rightLogo as string,
       bestOf: Bo,
       mapStates: [],
       vetoOrder,

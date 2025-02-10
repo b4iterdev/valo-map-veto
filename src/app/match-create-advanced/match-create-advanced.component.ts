@@ -79,11 +79,16 @@ export class MatchCreateAdvancedComponent {
 
     this.isLoading = true;
     this.error = null;
-
+    const placeholderLogo = (document.getElementById('placeholder-logo') as HTMLInputElement).value;
+    const leftLogo = (document.getElementById('leftLogo') as HTMLInputElement).value;
+    const rightLogo = (document.getElementById('rightLogo') as HTMLInputElement).value;
     try {
       this.sessionService.createSession(
+        placeholderLogo,
         this.leftTeam,
+        leftLogo,
         this.rightTeam,
+        rightLogo,
         this.bestOf,
         this.selectedMaps,
         this.vetoOrder,

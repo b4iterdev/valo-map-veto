@@ -26,10 +26,13 @@ export class MatchCreateComponent {
     });
   }
   createSession() {
+    const placeholderLogo = (document.getElementById('placeholder-logo') as HTMLInputElement).value;
     const leftName = (document.getElementById('leftTeam') as HTMLInputElement)
       .value;
+    const leftLogo = (document.getElementById('leftLogo') as HTMLInputElement).value;
     const rightName = (document.getElementById('rightTeam') as HTMLInputElement)
       .value;
+    const rightLogo = (document.getElementById('rightLogo') as HTMLInputElement).value;
     const Bo = parseInt(
       (document.getElementById('Bestof') as HTMLInputElement).value,
       10,
@@ -77,8 +80,11 @@ export class MatchCreateComponent {
     this.isLoading = true;
     this.error = null;
     this.sessionService.createSession(
+      placeholderLogo,
       leftName,
+      leftLogo,
       rightName,
+      rightLogo,
       Bo,
       this.mapList,
       this.vetoOrder,
