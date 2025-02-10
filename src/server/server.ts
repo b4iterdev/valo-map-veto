@@ -132,7 +132,16 @@ io.on('connection', (socket) => {
 
   socket.on(
     'createSession',
-    async ({ logo, leftTeam, leftLogo, rightTeam, rightLogo, bestOf, mapList, vetoOrder }) => {
+    async ({
+      logo,
+      leftTeam,
+      leftLogo,
+      rightTeam,
+      rightLogo,
+      bestOf,
+      mapList,
+      vetoOrder,
+    }) => {
       const session: Session = {
         id: uuidv4(),
         logo,
