@@ -30,6 +30,11 @@ On server endpoint: 3 endpoint are available: (Demo server: https://veto-server.
 * `/create?leftTeam=(Left Team Name)&rightTeam=(Right Team Name)&bestOf=(1,3,5)` will create a match with current competition map pool and standard veto order. Return `sessionId` if success
 * `/session/:sessionId`: Return ongoing veto session data.
 * `/result/:sessionId`: Return finished veto session data.
+
+# Credit
+* [Valorant-API](https://valorant-api.com/) for providing API for map images retrieving.
+* And many more dependencies used on this project, go to `package.json` for more info.
+
 # Legal disclaimer
 
 Valorant Map Veto Helper was created under Riot Games's "Legal Jibber Jabber" policy using assets owned by Riot Games. Valorant Map Veto Helper isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
