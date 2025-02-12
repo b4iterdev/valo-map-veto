@@ -27,7 +27,7 @@ export class ClientComponent implements OnDestroy {
   map: MapState | null = null;
   showSideSelection = false;
   vetoOrder: vetoOrder[] = [];
-  placeholderLogo = 'assets/mics/V_Lockup_Horizontal_Pos_Off-White.png';
+  placeholderLogo = 'none';
 
   private subscription!: Subscription;
   constructor(
@@ -51,7 +51,7 @@ export class ClientComponent implements OnDestroy {
           console.log(session);
           this.placeholderLogo =
             session.logo === ''
-              ? 'assets/mics/V_Lockup_Horizontal_Pos_Off-White.png'
+              ? 'none'
               : session.logo;
           this.isLoading = false;
         }
