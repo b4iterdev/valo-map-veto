@@ -26,13 +26,17 @@ export class MatchCreateComponent {
     });
   }
   createSession() {
-    const placeholderLogo = (document.getElementById('placeholder-logo') as HTMLInputElement).value;
+    const placeholderLogo = (
+      document.getElementById('placeholder-logo') as HTMLInputElement
+    ).value;
     const leftName = (document.getElementById('leftTeam') as HTMLInputElement)
       .value;
-    const leftLogo = (document.getElementById('leftLogo') as HTMLInputElement).value;
+    const leftLogo = (document.getElementById('leftLogo') as HTMLInputElement)
+      .value;
     const rightName = (document.getElementById('rightTeam') as HTMLInputElement)
       .value;
-    const rightLogo = (document.getElementById('rightLogo') as HTMLInputElement).value;
+    const rightLogo = (document.getElementById('rightLogo') as HTMLInputElement)
+      .value;
     const Bo = parseInt(
       (document.getElementById('Bestof') as HTMLInputElement).value,
       10,
