@@ -49,10 +49,7 @@ export class ClientComponent implements OnDestroy {
         if (session) {
           this.curSession = session;
           console.log(session);
-          this.placeholderLogo =
-            session.logo === ''
-              ? 'none'
-              : session.logo;
+          this.placeholderLogo = session.logo === '' ? 'none' : session.logo;
           this.isLoading = false;
         }
       },

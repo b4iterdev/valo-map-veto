@@ -4,11 +4,11 @@
 <div class="client-container">
   <ng-container *ngIf="session$ | async as session">
     <div class="teams">
-      <img class="team-img" [src]="session.leftLogo"/>
+      <img class="team-img" [src]="session.leftLogo" />
       <div class="team left">{{ session.leftTeam }}</div>
       <div class="team center">Best of {{ session.bestOf }}</div>
       <div class="team right">{{ session.rightTeam }}</div>
-      <img class="team-img" [src]="session.rightLogo"/>
+      <img class="team-img" [src]="session.rightLogo" />
     </div>
 
     <div class="current-turn">
