@@ -8,6 +8,8 @@ Differ from other available map veto in the internet, this is especially designe
 
 Also this stictly follows VCT Map Veto Process. You can customize your veto order on `/create-advanced`, and even use HTTP request to create a match, which returns JSON type with status and generated id.
 
+With [this template](https://github.com/b4iterdev/valo-veto-nodecg.git), you can also have your veto process displayed on boardcast right on live or have a full-screen veto result.
+
 # Configuration
 
 Abilities to change `serverUrl` are WIP. You would likely to change `serverUrl` in `app/shared/config.ts` point to the URL where the server is hosted at.
