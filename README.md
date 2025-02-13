@@ -33,6 +33,8 @@ On server endpoint: 3 endpoint are available: (Demo server: https://veto-server.
 * `/session/:sessionId`: Return ongoing veto session data.
 * `/result/:sessionId`: Return finished veto session data.
 
+This [NodeCG Template](https://github.com/b4iterdev/valo-veto-nodecg.git) utilize all those endpoint.
+
 # Credit
 * [Valorant-API](https://valorant-api.com/) for providing API for map images retrieving.
 * And many more dependencies used on this project, go to `package.json` for more info.
